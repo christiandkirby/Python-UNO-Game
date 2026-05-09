@@ -10,6 +10,22 @@ def handle_action_cards(card):
     pass
 
 
+def handle_draw_cards():
+    pass
+
+
+def handle_skip():
+    pass
+
+
+def handle_reverse():
+    pass
+
+
+def handle_wild():
+    pass
+
+
 
 # -------------------------------------
 # Checks if a player has won the game
@@ -56,7 +72,7 @@ def initialize_players():
 # -------------------------------------
 # Handles a Players Turn
 # -------------------------------------
-def take_turn(hand, drawDeck, discardPile):
+def take_turn(player, hand, drawDeck, discardPile):
     num_of_cards = len(hand)-1
     chosen_card = input(f"Please Pick The Number That Corresponds to the Card You Want.\n"
                         f"(From 0 to {num_of_cards} or -1 to Draw a Card.) ")
@@ -64,16 +80,12 @@ def take_turn(hand, drawDeck, discardPile):
         try:
             chosen_card = int(chosen_card)
             if chosen_card == -1:
-                card = drawDeck.popleft()
-                hand.append(card)
+                player.draw_card(hand, drawDeck)
                 break
             elif chosen_card in range(0,num_of_cards+1):
                 if hand[chosen_card].can_play_on(discardPile[0]):
-                    old_card = discardPile.popleft()
-                    drawDeck.append(old_card)
-                    discardPile.append(hand[chosen_card])
-                    print(f"Top Card on Discard Pile: {discardPile[0]}\n")
-                    hand.remove(hand[chosen_card])
+                    card = hand[chosen_card]
+                    player.play_card(card, hand, discardPile, drawDeck)
                     break
                 else:
                     print("This Card Cannot Be Played, Please Pick Another Card.\n")
@@ -120,14 +132,15 @@ while running:
         while i < 1:
             selected_player = i % num_of_players
             print(f"Its {players[selected_player].name}'s Turn!\n")
+            player = players[selected_player]
             players_hand = players[selected_player].hand
             print(f"{players_hand}\n")
             
             print(f"Top Card on Discard Pile: {discardPile[0]}\n")
 
-            print(f"Number of Cards {selected_player} has before turn is {len(players_hand)}\n" )
-            take_turn(players_hand, drawDeck, discardPile)
-            print(f"Number of Cards {selected_player} has after turn is {len(players_hand)}\n" )
+            print(f"Number of Cards {player.name} has before turn is {len(players_hand)}\n" )
+            take_turn(player, players_hand, drawDeck, discardPile)
+            print(f"Number of Cards {player.name} has after turn is {len(players_hand)}\n" )
 
             # print(f"Top Card on Discard Pile: {discardPile[0]}\n")
         
