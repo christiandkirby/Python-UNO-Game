@@ -1,6 +1,5 @@
 import Cards
 import Player
-import rich
 from collections import deque
 
 # -------------------------------------
