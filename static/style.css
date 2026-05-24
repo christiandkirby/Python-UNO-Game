@@ -1,16 +1,67 @@
-.card {
-  min-height: 100px;
+:root {
+  --card-width: 157px;
+  --card-height: 220px;
+}
+
+body {
+  height: 100vh;
+}
+
+main {
+  height: 55%;
   display: flex;
   justify-content: center;
-  align-items: center;
+}
+
+.card-container {
+  margin-top: 30px;
+  position: relative;
+}
+
+.card {
+  position: absolute;
+  height: var(--card-height);
+  width: var(--card-width);
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.card-img {
+  height: 100%;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+.card:hover .card-inner {
+  transform: rotateY(180deg);
 }
 
 .rectangle {
-  width: 150px;
-  height: 200px;
+  width: 117px;
+  height: 180px;
   background-color: #dc143c;
-  border: 8px solid #000;
-  border-radius: 10px;
+  border: 12px solid #000;
+  border-radius: 28px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,13 +69,5 @@
 .uno-title {
   color: #ffde21;
   font-family: "Honk";
-  font-size: 70px;
-}
-
-.honk-<uniquifier > {
-  font-family: "Honk", system-ui;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  font-variation-settings: "MORF" 15, "SHLN" 0;
+  font-size: 65px;
 }

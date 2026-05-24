@@ -16,17 +16,29 @@
     />
   </head>
   <body>
-    <h1>Welcome To Python Uno!</h1>
-    <p>
-      This is a UNO Game created in Python using Flask for frontend rendering!
-      Have Fun!
-    </p>
+    <header>
+      <h1>Welcome To Python Uno!</h1>
+    </header>
 
-    <button>Draw Card</button>
-    <div class="card">
-      <div class="rectangle">
-        <h2 class="uno-title">UNO</h2>
+    <main>
+      <div class="class-container">
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">
+              <img
+                src="/static/images/Card Images/red_2.png"
+                alt=""
+                class="card-img"
+              />
+            </div>
+            <div class="card-back">
+              <div class="rectangle">
+                <h2 class="uno-title">UNO</h2>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </main>
   </body>
 </html>
