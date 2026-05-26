@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -17,17 +17,34 @@
   </head>
   <body>
     <header>
-      <h1>Welcome To Python Uno!</h1>
+      <h1 class="python-uno-title">Welcome To Python Uno!</h1>
     </header>
 
     <main>
-      <div class="class-container">
+      <div class="table-top"><h1>TOP</h1></div>
+      <div class="table-left"><h1>LEFT</h1></div>
+      <div class="table-center">
+        <div class="card draw-deck" onclick="">
+          <div class="rectangle">
+            <h2 class="uno-title">UNO</h2>
+          </div>
+        </div>
+        <div class="card">
+          <img
+            src="/static/images/Card Images/red_2.png"
+            alt=""
+            class="card-img"
+          />
+        </div>
+      </div>
+      <div class="table-right"><h1>RIGHT</h1></div>
+      <div class="table-bottom">
+        {% for card in player_hand %}
         <div class="card">
           <div class="card-inner">
             <div class="card-front">
               <img
-                src="/static/images/Card Images/red_2.png"
-                alt=""
+                src="/static/images/Card Images/{{ card }}.png"
                 class="card-img"
               />
             </div>
@@ -38,6 +55,7 @@
             </div>
           </div>
         </div>
+        {% endfor %}
       </div>
     </main>
   </body>

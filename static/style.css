@@ -1,25 +1,76 @@
 :root {
   --card-width: 157px;
   --card-height: 220px;
+  --card-horizontal-space: 100px;
 }
 
 body {
   height: 100vh;
+  /* overflow: hidden; */
 }
 
 main {
-  height: 55%;
+  height: 100vh;
   display: flex;
   justify-content: center;
+  display: grid;
+  grid-template-areas:
+    "top top top"
+    "left center right"
+    "bottom bottom bottom";
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 1fr 2fr 1fr;
+  /* border: 1px solid black; */
 }
 
-.card-container {
-  margin-top: 30px;
-  position: relative;
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.python-uno-title {
+  color: #ffde21;
+  font-family: "Honk";
+  font-size: 60px;
+}
+
+.table-top {
+  transform: rotate(180deg);
+  grid-area: top;
+  border: 1px solid black;
+}
+
+.table-left {
+  transform: rotate(-270deg);
+  grid-area: left;
+  border: 1px solid black;
+}
+
+.table-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-area: center;
+  border: 1px solid black;
+}
+
+.table-right {
+  transform: rotate(-90deg);
+  grid-area: right;
+  border: 1px solid black;
+}
+
+.table-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-area: bottom;
+  border: 1px solid black;
 }
 
 .card {
-  position: absolute;
+  /* position: absolute; */
   height: var(--card-height);
   width: var(--card-width);
   perspective: 1000px;
@@ -58,7 +109,7 @@ main {
 
 .rectangle {
   width: 117px;
-  height: 180px;
+  height: 200px;
   background-color: #dc143c;
   border: 12px solid #000;
   border-radius: 28px;
