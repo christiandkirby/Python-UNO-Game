@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Python UNO Game</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='startScreen.css') }}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Honk:MORF,SHLN@15,0&family=Orbitron:wght@400..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <h1 class="python-uno-title">Welcome To Python Uno!</h1>
+    </header>
+    <main>
+      <div class="menu-box glass-card">
+        <p>Please Select How Many Players Will Their Be!</p>
+        <form action="/start" method="post">
+          <label
+            ><input type="radio" name="num_of_players" value="2" /> 2
+            Players</label
+          ><br />
+          <label
+            ><input type="radio" name="num_of_players" value="3" /> 3
+            Players</label
+          ><br />
+          <label
+            ><input type="radio" name="num_of_players" value="4" /> 4
+            Players</label
+          >
+          <button class="start-button" type="submit">Start</button>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

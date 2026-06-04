@@ -130,21 +130,10 @@ def check_for_uno(player, hand, drawDeck):
 # -------------------------------------
 # Initializes the Players for the Game
 # -------------------------------------
-def initialize_players():
-        while True:
-            num_of_players = input("How Many Players? (2, 3, or 4) ")
-            try:
-                num_of_players = int(num_of_players)
-                if num_of_players in [2, 3, 4]:
-                    break
-                else:
-                    raise ValueError
-            except ValueError:
-                print("Invalid Input! Please Type 2, 3, or 4!")
-                continue
-        
+def initialize_players(num_of_players):
+        num_of_players = int(num_of_players)
         players = [Player.Player("Player " + str(i+1)) for i in range(num_of_players)]
-        return num_of_players, players
+        return players
 
 
 
@@ -186,72 +175,72 @@ def take_turn(player, hand, drawDeck, discardPile):
 
 
 
+if __name__ == "__main__":
+    running = True
+    while running:
+        # Initialize Players
+        num_of_players, players = initialize_players() 
+        
+        # Initialize Card Decks
+        unoDeck = Cards.Card.build_deck()
+        unoDeck = Cards.Card.shuffle_deck(unoDeck)
+        drawDeck = deque(unoDeck)
+        discardPile = deque()
 
-running = True
-while running:
-    # Initialize Players
-    num_of_players, players = initialize_players() 
-    
-    # Initialize Card Decks
-    unoDeck = Cards.Card.build_deck()
-    unoDeck = Cards.Card.shuffle_deck(unoDeck)
-    drawDeck = deque(unoDeck)
-    discardPile = deque()
 
+        # Dealing Each Players Cards
+        for player in players:
+            for _ in range(7):
+                card = drawDeck.popleft()
+                player.hand.append(card)
 
-    # Dealing Each Players Cards
-    for player in players:
-        for _ in range(7):
-            card = drawDeck.popleft()
-            player.hand.append(card)
-
-    # Initialize Turn Variables
-    direction = 1
-    selected_player = 0
-    
-    # Setting up discard pile
-    firstCard = drawDeck.popleft()
-    discardPile.append(firstCard)
-
-    # Handles Draw Four Starter Card Edge Case
-    while discardPile[0].action == 'draw four':
-        card = discardPile.popleft()
-        drawDeck.append(card)
+        # Initialize Turn Variables
+        direction = 1
+        selected_player = 0
+        
+        # Setting up discard pile
         firstCard = drawDeck.popleft()
         discardPile.append(firstCard)
 
-    print(f"The first card on the play deck is a {discardPile[0]}\n")
+        # Handles Draw Four Starter Card Edge Case
+        while discardPile[0].action == 'draw four':
+            card = discardPile.popleft()
+            drawDeck.append(card)
+            firstCard = drawDeck.popleft()
+            discardPile.append(firstCard)
 
-    # Handles If Starting Card is an Action Card
-    if discardPile[0].action != None:
-            selected_player, direction = handle_action_cards(discardPile[0], selected_player, 
-                                                             direction, num_of_players, 
-                                                             players, drawDeck)
+        print(f"The first card on the play deck is a {discardPile[0]}\n")
 
-
-    game_still_going = True
-    while game_still_going:
-        player = players[selected_player]
-        print(f"Its {player.name}'s Turn!\n")
-        players_hand = player.hand
-        print(f"{players_hand}\n")
-        
-        print(f"Top Card on Discard Pile: {discardPile[0]}\n")
-
-        print(f"Number of Cards {player.name} has before turn is {len(players_hand)}\n" )
-        was_card_played = take_turn(player, players_hand, drawDeck, discardPile)
-        print(f"Number of Cards {player.name} has after turn is {len(players_hand)}\n" )
-
-        # Handling Card Gameplay
-        if was_card_played:
-            if discardPile[0].action != None:
+        # Handles If Starting Card is an Action Card
+        if discardPile[0].action != None:
                 selected_player, direction = handle_action_cards(discardPile[0], selected_player, 
-                                                                    direction, num_of_players, 
-                                                                    players, drawDeck)
-            check_for_uno(player, players_hand, drawDeck)
-            game_still_going = check_for_winner(players_hand, game_still_going)
-        
-        
-        selected_player = (selected_player + direction) % num_of_players
-    print(f"{player.name} wins! 🎉")
-    running = False
+                                                                direction, num_of_players, 
+                                                                players, drawDeck)
+
+
+        game_still_going = True
+        while game_still_going:
+            player = players[selected_player]
+            print(f"Its {player.name}'s Turn!\n")
+            players_hand = player.hand
+            print(f"{players_hand}\n")
+            
+            print(f"Top Card on Discard Pile: {discardPile[0]}\n")
+
+            print(f"Number of Cards {player.name} has before turn is {len(players_hand)}\n" )
+            was_card_played = take_turn(player, players_hand, drawDeck, discardPile)
+            print(f"Number of Cards {player.name} has after turn is {len(players_hand)}\n" )
+
+            # Handling Card Gameplay
+            if was_card_played:
+                if discardPile[0].action != None:
+                    selected_player, direction = handle_action_cards(discardPile[0], selected_player, 
+                                                                        direction, num_of_players, 
+                                                                        players, drawDeck)
+                check_for_uno(player, players_hand, drawDeck)
+                game_still_going = check_for_winner(players_hand, game_still_going)
+            
+            
+            selected_player = (selected_player + direction) % num_of_players
+        print(f"{player.name} wins! 🎉")
+        running = False

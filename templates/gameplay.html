@@ -6,7 +6,7 @@
     <title>Python UNO Game</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
+      href="{{ url_for('static', filename='gameplay.css') }}"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,27 +17,50 @@
   </head>
   <body>
     <header>
-      <h1 class="python-uno-title">Welcome To Python Uno!</h1>
+      <h1 class="python-uno-title">It's {{ current_player }}'s Turn!</h1>
     </header>
-
     <main>
-      <div class="table-top"><h1>TOP</h1></div>
-      <div class="table-left"><h1>LEFT</h1></div>
+      <div class="table-top">
+        {% for card in player_hand %}
+        <div class="card opponent-card">
+          <div class="rectangle">
+            <h2 class="uno-title">UNO</h2>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="table-left">
+        {% for card in player_hand %}
+        <div class="card opponent-card">
+          <div class="rectangle">
+            <h2 class="uno-title">UNO</h2>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
       <div class="table-center">
         <div class="card draw-deck" onclick="">
           <div class="rectangle">
             <h2 class="uno-title">UNO</h2>
           </div>
         </div>
-        <div class="card">
+        <div class="card discard-pile">
           <img
-            src="/static/images/Card Images/red_2.png"
+            src="/static/images/Card Images/{{ top_card }}.png"
             alt=""
             class="card-img"
           />
         </div>
       </div>
-      <div class="table-right"><h1>RIGHT</h1></div>
+      <div class="table-right">
+        {% for card in player_hand %}
+        <div class="card opponent-card">
+          <div class="rectangle">
+            <h2 class="uno-title">UNO</h2>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
       <div class="table-bottom">
         {% for card in player_hand %}
         <div class="card">
@@ -58,5 +81,6 @@
         {% endfor %}
       </div>
     </main>
+    <script src="{{ url_for('static', filename='gameplay.js') }}"></script>
   </body>
 </html>
