@@ -21,7 +21,7 @@
     </header>
     <main>
       <div class="table-top">
-        {% for card in player_hand %}
+        {% for i in range(opponent_counts[0]) %}
         <div class="card opponent-card">
           <div class="rectangle">
             <h2 class="uno-title">UNO</h2>
@@ -30,7 +30,7 @@
         {% endfor %}
       </div>
       <div class="table-left">
-        {% for card in player_hand %}
+        {% for i in range(opponent_counts[1]) %}
         <div class="card opponent-card">
           <div class="rectangle">
             <h2 class="uno-title">UNO</h2>
@@ -39,7 +39,7 @@
         {% endfor %}
       </div>
       <div class="table-center">
-        <div class="card draw-deck" onclick="">
+        <div class="card draw-deck" onclick="draw_card()">
           <div class="rectangle">
             <h2 class="uno-title">UNO</h2>
           </div>
@@ -53,7 +53,7 @@
         </div>
       </div>
       <div class="table-right">
-        {% for card in player_hand %}
+        {% for i in range(opponent_counts[2]) %}
         <div class="card opponent-card">
           <div class="rectangle">
             <h2 class="uno-title">UNO</h2>
@@ -63,7 +63,7 @@
       </div>
       <div class="table-bottom">
         {% for card in player_hand %}
-        <div class="card">
+        <div class="card" onclick="play_card({{ loop.index0 }})">
           <div class="card-inner">
             <div class="card-front">
               <img

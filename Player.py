@@ -12,7 +12,6 @@ class Player:
         old_card = discardPile.popleft()
         drawDeck.append(old_card)
         discardPile.append(card)
-        print(f"Top Card on Discard Pile: {discardPile[0]}\n")
         hand.remove(card)
 
 

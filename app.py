@@ -1,6 +1,6 @@
 from flask import Flask, session
-from flask import render_template, redirect, url_for, request
-import Game, Cards
+from flask import render_template, redirect, url_for, request, jsonify
+import Game, Cards, Player
 from collections import deque
 
 def card_to_filename(card):
@@ -22,6 +22,7 @@ app.secret_key = "pythonUNO"
 @app.route("/")
 def start_screen():
     return render_template('startScreen.html')
+
 
 @app.route("/start", methods=['POST'])
 def start_game():
@@ -67,24 +68,51 @@ def gameplay():
     current = players[selected_player]
     player_hand = [card_to_filename(card) for card in current.hand]
     top_card = card_to_filename(discardPile[0])
+    
+    opponent_counts = [len(p.hand) for p in players if p != current]
+    
     return render_template('gameplay.html', 
         player_hand=player_hand,
         top_card=top_card,
         current_player=current.name,
-        num_of_players=num_of_players
+        num_of_players=num_of_players,
+        opponent_counts=opponent_counts
     )
+
 
 @app.route('/play_card', methods=['POST'])
 def play_card():
-    pass
+    current = players[selected_player]
+    card_index = request.get_json()['card_index']
+    card = current.hand[card_index] 
+
+    if card.can_play_on(discardPile[0]):
+        current.play_card(card, current.hand, discardPile, drawDeck)
+        return jsonify({
+            'success': True,
+            'player_hand': [card_to_filename(c) for c in current.hand],
+            'top_card': card_to_filename(discardPile[0])
+        })
+    else:
+        return jsonify({
+            'success': False,
+            'message': 'That card cannot be played!'
+        })
+
 
 @app.route('/draw_card', methods=['POST'])
 def draw_card():
-    pass
+    current = players[selected_player]
+    current.draw_card(current.hand, drawDeck)
+    return jsonify({
+        'player_hand': [card_to_filename(c) for c in current.hand]
+    })
+
 
 @app.route('/select_color', methods=['POST'])
 def select_color():
     pass
+
 
 @app.route('/game_state', methods=['GET'])
 def get_game_state():
@@ -93,7 +121,7 @@ def get_game_state():
         'current_player': current.name,
         'player_hand': [card_to_filename(card) for card in current.hand],
         'top_card': card_to_filename(discardPile[0]),
-        'zones': get_zone_assignments(),
+        'zones': None, # Placeholder for zones if needed : get_zone_assignments()
         'num_of_players': num_of_players,
         'direction': direction
     }
