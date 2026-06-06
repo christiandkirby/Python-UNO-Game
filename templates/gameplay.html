@@ -63,7 +63,7 @@
       </div>
       <div class="table-bottom">
         {% for card in player_hand %}
-        <div class="card" onclick="play_card({{ loop.index0 }})">
+        <div class="card" onclick="play_card({{ loop.index0 }}, '{{ card }}')">
           <div class="card-inner">
             <div class="card-front">
               <img
@@ -81,6 +81,56 @@
         {% endfor %}
       </div>
     </main>
+
+    <!-- Color Picker Modal -->
+    <div class="modal-overlay" id="color-picker">
+      <div class="modal-content">
+        <h2 class="color-picker-prompt">Choose a Color</h2>
+        <div class="color-buttons">
+          <button
+            class="color-btn"
+            style="
+              background-color: red;
+              width: 50px;
+              height: 50px;
+              border-radius: 15px;
+            "
+            onclick="selectColor('red')"
+          ></button>
+          <button
+            class="color-btn"
+            style="
+              background-color: yellow;
+              width: 50px;
+              height: 50px;
+              border-radius: 15px;
+            "
+            onclick="selectColor('yellow')"
+          ></button>
+          <button
+            class="color-btn"
+            style="
+              background-color: green;
+              width: 50px;
+              height: 50px;
+              border-radius: 15px;
+            "
+            onclick="selectColor('green')"
+          ></button>
+          <button
+            class="color-btn"
+            style="
+              background-color: blue;
+              width: 50px;
+              height: 50px;
+              border-radius: 15px;
+            "
+            onclick="selectColor('blue')"
+          ></button>
+        </div>
+      </div>
+    </div>
+
     <script src="{{ url_for('static', filename='gameplay.js') }}"></script>
   </body>
 </html>

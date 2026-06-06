@@ -69,30 +69,8 @@ def handle_reverse(direction):
 # Parameter(s): card --> Card Object
 # Return Value(s): None
 # -------------------------------------
-def handle_wild(card):
-    color = input(f"What Color Do You Want to Select? (1:Red, 2:Yellow, 3:Green, 4:Blue): ")
-    while True:
-        try:
-            color = int(color)
-            match color:
-                case 1:
-                    card.color = 'red'
-                    break
-                case 2:
-                    card.color = 'yellow'
-                    break
-                case 3:
-                    card.color = 'green'
-                    break
-                case 4:
-                    card.color = 'blue'
-                    break
-                case _:
-                    raise ValueError
-        except ValueError:
-            print(f"Invalid Input! Please Type 1, 2, 3, 4!")
-        color = input(f"What Color Do You Want to Select? (1:Red, 2:Yellow, 3:Green, 4:Blue): ")
-
+def handle_wild(card, color):
+    card.color = color
 
 
 

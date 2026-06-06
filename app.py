@@ -29,7 +29,7 @@ def start_game():
     global players, num_of_players, unoDeck, drawDeck, discardPile, direction, selected_player, game_active
 
     # Initialize Players
-    num_of_players = request.form.get('num_of_players')
+    num_of_players = int(request.form.get('num_of_players'))
     players = Game.initialize_players(num_of_players)
 
     # Initialize Card Decks
@@ -82,16 +82,20 @@ def gameplay():
 
 @app.route('/play_card', methods=['POST'])
 def play_card():
+    global selected_player, direction, num_of_players, players
     current = players[selected_player]
     card_index = request.get_json()['card_index']
     card = current.hand[card_index] 
 
     if card.can_play_on(discardPile[0]):
         current.play_card(card, current.hand, discardPile, drawDeck)
+        
+        selected_player = (selected_player + direction) % num_of_players
         return jsonify({
             'success': True,
             'player_hand': [card_to_filename(c) for c in current.hand],
-            'top_card': card_to_filename(discardPile[0])
+            'top_card': card_to_filename(discardPile[0]),
+            'current': players[selected_player].name
         })
     else:
         return jsonify({
@@ -102,10 +106,15 @@ def play_card():
 
 @app.route('/draw_card', methods=['POST'])
 def draw_card():
+    global selected_player, direction, num_of_players, players
     current = players[selected_player]
     current.draw_card(current.hand, drawDeck)
+
+    selected_player = (selected_player + direction) % num_of_players
+
     return jsonify({
-        'player_hand': [card_to_filename(c) for c in current.hand]
+        'player_hand': [card_to_filename(c) for c in current.hand],
+        'current': players[selected_player].name
     })
 
 
