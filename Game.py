@@ -7,21 +7,23 @@ from collections import deque
 # Parameter(s): card --> Card Object
 # Return Value(s): None
 # -------------------------------------
-def handle_action_cards(card, selected_player, direction, num_of_players, players, drawDeck):
+def handle_action_cards(card, selected_player, direction, num_of_players, players, drawDeck, color=None):
     if card.action == 'skip':
         selected_player = handle_skip(selected_player, direction, num_of_players)
         return selected_player, direction
     elif card.action == 'reverse':
-        direction = handle_reverse(direction)
+        selected_player, direction = handle_reverse(selected_player, direction, num_of_players)
         return selected_player, direction
     elif card.action == 'wild':
-        handle_wild(card)
         return selected_player, direction
 
     else:
-        selected_player = handle_draw_cards(card, selected_player, direction, players, num_of_players, drawDeck)
+        selected_player = handle_draw_cards(card, selected_player, direction, players, num_of_players, drawDeck, color)
         return selected_player, direction
 
+
+def advance_player(selected_player, direction, num_of_players):
+    return (selected_player + direction) % num_of_players
 
 # ---------------------------------------------------
 # Handles Draw Cards (NO STACKING FOR VERSION 1.0)
@@ -29,21 +31,13 @@ def handle_action_cards(card, selected_player, direction, num_of_players, player
 # Return Value(s): selected_player --> int
 # ---------------------------------------------------
 def handle_draw_cards(card, selected_player, direction, players, num_of_players, drawDeck):
-    if card.action == 'draw two':
-        selected_player = handle_skip(selected_player, direction, num_of_players)
-        next_player = players[selected_player]
-        for _ in range(2):
-            next_player.draw_card(next_player.hand, drawDeck)
-        return selected_player
-    else:
-        handle_wild(card)
-        selected_player = handle_skip(selected_player, direction, num_of_players)
-        next_player = players[selected_player]
-        for _ in range(4):
-            next_player.draw_card(next_player.hand, drawDeck)
-            
-        return selected_player
-
+    num_cards = 2 if card.action == 'draw two' else 4
+    selected_player = advance_player(selected_player, direction, num_of_players)
+    next_player = players[selected_player]
+    for _ in range(num_cards):
+        next_player.draw_card(next_player.hand, drawDeck)
+    selected_player = advance_player(selected_player, direction, num_of_players)
+    return selected_player
 
 
 # -------------------------------------
@@ -52,7 +46,7 @@ def handle_draw_cards(card, selected_player, direction, players, num_of_players,
 # Return Value(s): None
 # -------------------------------------
 def handle_skip(selected_player, direction, num_of_players):
-    return (selected_player + direction) % num_of_players
+    return (selected_player + direction * 2) % num_of_players
 
 
 # -------------------------------------
@@ -60,8 +54,10 @@ def handle_skip(selected_player, direction, num_of_players):
 # Parameter(s): None
 # Return Value(s): None
 # -------------------------------------
-def handle_reverse(direction):
-    return direction * -1
+def handle_reverse(selected_player, direction, num_of_players):
+    direction *= -1
+    selected_player = advance_player(selected_player, direction, num_of_players)
+    return selected_player, direction
 
 
 # -------------------------------------

@@ -4,6 +4,8 @@ import Game, Cards, Player
 from collections import deque
 
 def card_to_filename(card):
+    if card.category == 'action' and card.action in ['wild', 'draw four']:
+        return card.action.replace(' ', '_')
     return repr(card).lower().replace(' ', '_')
 
 
@@ -68,15 +70,34 @@ def gameplay():
     current = players[selected_player]
     player_hand = [card_to_filename(card) for card in current.hand]
     top_card = card_to_filename(discardPile[0])
-    
-    opponent_counts = [len(p.hand) for p in players if p != current]
-    
-    return render_template('gameplay.html', 
+
+    opponents = [p for p in players if p != current]
+
+    zones = {
+        "top": None,
+        "left": None,
+        "right": None
+    }
+
+    if num_of_players == 2:
+        zones["top"] = len(opponents[0].hand)
+
+    elif num_of_players == 3:
+        zones["left"] = len(opponents[0].hand)
+        zones["right"] = len(opponents[1].hand)
+
+    elif num_of_players == 4:
+        zones["top"] = len(opponents[0].hand)
+        zones["left"] = len(opponents[1].hand)
+        zones["right"] = len(opponents[2].hand)
+
+    return render_template(
+        "gameplay.html",
         player_hand=player_hand,
         top_card=top_card,
         current_player=current.name,
         num_of_players=num_of_players,
-        opponent_counts=opponent_counts
+        zones=zones
     )
 
 
@@ -84,13 +105,24 @@ def gameplay():
 def play_card():
     global selected_player, direction, num_of_players, players
     current = players[selected_player]
-    card_index = request.get_json()['card_index']
+    data = request.get_json()
+    card_index = data['card_index']
+    color = data.get('color', None)
     card = current.hand[card_index] 
 
     if card.can_play_on(discardPile[0]):
         current.play_card(card, current.hand, discardPile, drawDeck)
+
+        if color:
+            Game.handle_wild(discardPile[0], color)
         
-        selected_player = (selected_player + direction) % num_of_players
+        if card.action in ['reverse', 'skip', 'draw two', 'draw four']:
+            selected_player, direction = Game.handle_action_cards(discardPile[0], selected_player, 
+                                                                direction, num_of_players, 
+                                                                players, drawDeck)
+        else:
+            selected_player = (selected_player + direction) % num_of_players
+        
         return jsonify({
             'success': True,
             'player_hand': [card_to_filename(c) for c in current.hand],

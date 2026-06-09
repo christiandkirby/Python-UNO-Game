@@ -20,8 +20,9 @@
       <h1 class="python-uno-title">It's {{ current_player }}'s Turn!</h1>
     </header>
     <main>
+      {% if zones.top %}
       <div class="table-top">
-        {% for i in range(opponent_counts[0]) %}
+        {% for i in range(zones.top) %}
         <div class="card opponent-card">
           <div class="rectangle">
             <h2 class="uno-title">UNO</h2>
@@ -29,8 +30,9 @@
         </div>
         {% endfor %}
       </div>
+      {% endif %} {% if zones.left %}
       <div class="table-left">
-        {% for i in range(opponent_counts[1]) %}
+        {% for i in range(zones.left) %}
         <div class="card opponent-card">
           <div class="rectangle">
             <h2 class="uno-title">UNO</h2>
@@ -38,6 +40,7 @@
         </div>
         {% endfor %}
       </div>
+      {% endif %}
       <div class="table-center">
         <div class="card draw-deck" onclick="draw_card()">
           <div class="rectangle">
@@ -52,8 +55,9 @@
           />
         </div>
       </div>
+      {% if zones.right %}
       <div class="table-right">
-        {% for i in range(opponent_counts[2]) %}
+        {% for i in range(zones.right) %}
         <div class="card opponent-card">
           <div class="rectangle">
             <h2 class="uno-title">UNO</h2>
@@ -61,6 +65,7 @@
         </div>
         {% endfor %}
       </div>
+      {% endif %}
       <div class="table-bottom">
         {% for card in player_hand %}
         <div class="card" onclick="play_card({{ loop.index0 }}, '{{ card }}')">
