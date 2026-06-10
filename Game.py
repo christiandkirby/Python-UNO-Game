@@ -18,7 +18,7 @@ def handle_action_cards(card, selected_player, direction, num_of_players, player
         return selected_player, direction
 
     else:
-        selected_player = handle_draw_cards(card, selected_player, direction, players, num_of_players, drawDeck, color)
+        selected_player = handle_draw_cards(card, selected_player, direction, players, num_of_players, drawDeck)
         return selected_player, direction
 
 
@@ -90,13 +90,8 @@ def check_for_winner(hand, game_still_going):
 # Parameter(s): hand --> Array of Card Objects
 # Return Value(s): Boolean (True/False)
 # -------------------------------------
-def check_for_uno(player, hand, drawDeck):
-    if len(hand) == 1:
-        said_uno = input(f"You have UNO please type UNO correctly!(CASE INSENSITIVE)\n" 
-                         f"Otherwise You get a 2 card penalty! ")
-        if said_uno.upper() != 'UNO': 
-            player.draw_card(hand, drawDeck) 
-            player.draw_card(hand, drawDeck)
+def check_for_uno(hand):
+    return True if len(hand) == 1 else False
 
 
 

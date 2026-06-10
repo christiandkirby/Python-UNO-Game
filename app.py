@@ -16,6 +16,7 @@ selected_player = 0
 direction = 1
 num_of_players = 0
 game_active = False
+uno_called = False
 
 
 app = Flask(__name__)
@@ -63,6 +64,19 @@ def start_game():
         discardPile.append(firstCard)
 
     return redirect(url_for("gameplay"))
+
+
+@app.route('/game_state', methods=['GET'])
+def get_game_state():
+    current = players[selected_player]
+    return {
+        'current_player': current.name,
+        'player_hand': [card_to_filename(card) for card in current.hand],
+        'top_card': card_to_filename(discardPile[0]),
+        'zones': None, # Placeholder for zones if needed : get_zone_assignments()
+        'num_of_players': num_of_players,
+        'direction': direction
+    }
 
 
 @app.route("/gameplay")
@@ -115,6 +129,14 @@ def play_card():
 
         if color:
             Game.handle_wild(discardPile[0], color)
+
+        if Game.check_for_winner(current.hand):
+            return jsonify({
+                'success': True,
+                'winner_name': current.name
+            })
+        
+        uno = Game.check_for_uno(current.hand)
         
         if card.action in ['reverse', 'skip', 'draw two', 'draw four']:
             selected_player, direction = Game.handle_action_cards(discardPile[0], selected_player, 
@@ -150,22 +172,23 @@ def draw_card():
     })
 
 
-@app.route('/select_color', methods=['POST'])
-def select_color():
-    pass
+@app.route('/call_uno', methods=['POST'])
+def call_uno():
+    global uno_called
+    uno_called = True
+    return jsonify({'success': True})
 
 
-@app.route('/game_state', methods=['GET'])
-def get_game_state():
-    current = players[selected_player]
-    return {
-        'current_player': current.name,
-        'player_hand': [card_to_filename(card) for card in current.hand],
-        'top_card': card_to_filename(discardPile[0]),
-        'zones': None, # Placeholder for zones if needed : get_zone_assignments()
-        'num_of_players': num_of_players,
-        'direction': direction
-    }
+@app.route('/winner', methods=['POST'])
+def winner():
+    render_template('winScreen.html', winner_name=players[selected_player].name)
+
+
+
+@app.route('/winner', methods=['POST'])
+def winner():
+    render_template('winScreen.html', winner_name=players[selected_player].name)
+
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')

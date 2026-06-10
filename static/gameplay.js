@@ -14,12 +14,12 @@ function play_card(index, cardName) {
     })
     .then(response => response.json())
     .then(data => {
-        if (data.success) {
-            window.location.href = '/gameplay';
-        } else {
-            alert(data.message);
-        }
-    })
+    if (data.winner) {
+        window.location.href = '/win?winner=' + data.winner_name;
+    } else if (data.success) {
+        window.location.href = '/gameplay';
+    }
+})
 }
 
 function selectColor(color) {
