@@ -89,7 +89,7 @@
           <div class="card-inner">
             <div class="card-front">
               <img
-                src="/static/images/Card Images/{{ card }}.png"
+                src="{{ url_for('static', filename='images/Card Images/' + card + '.png') }}"
                 class="card-img"
               />
             </div>
