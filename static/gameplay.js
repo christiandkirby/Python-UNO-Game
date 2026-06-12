@@ -31,7 +31,9 @@ function selectColor(color) {
     })
     .then(response => response.json())
     .then(data => {
-        if (data.success) {
+        if (data.winner) {
+            window.location.href = '/winner?winner=' + data.winner_name;
+        } else if (data.success) {
             window.location.href = '/gameplay';
         } else {
             alert(data.message);
