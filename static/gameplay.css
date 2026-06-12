@@ -42,14 +42,17 @@ header {
 
 .table-top {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   grid-area: top;
   overflow: hidden;
+  transform: translateY(40px);
 }
 
 .table-left {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   transform: rotate(-270deg) translateX(-40px);
@@ -63,10 +66,12 @@ header {
   justify-content: center;
   grid-area: center;
   overflow: hidden;
+  gap: 20px;
 }
 
 .table-right {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   transform: rotate(-90deg) translateX(40px);
@@ -81,10 +86,18 @@ header {
   grid-area: bottom;
 }
 
-.table-top,
-.table-left,
-.table-right {
-  overflow: hidden;
+.opponent-cards {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.opponent-cards .opponent-card {
+  margin-left: -45px;
+}
+
+.opponent-cards .opponent-card:first-child {
+  margin-left: 0;
 }
 
 .card.opponent-card {
@@ -105,7 +118,6 @@ header {
 }
 
 .card {
-  /* position: absolute; */
   height: var(--card-height);
   width: var(--card-width);
   perspective: 1000px;
@@ -167,18 +179,6 @@ header {
   cursor: default;
 }
 
-.table-top .opponent-card,
-.table-left .opponent-card,
-.table-right .opponent-card {
-  margin-left: -45px;
-}
-
-.table-top .opponent-card:first-child,
-.table-left .opponent-card:first-child,
-.table-right .opponent-card:first-child {
-  margin-left: 0;
-}
-
 .rectangle {
   width: 117px;
   height: 200px;
@@ -189,6 +189,7 @@ header {
   justify-content: center;
   align-items: center;
 }
+
 .uno-title {
   color: #ffde21;
   font-family: "Honk";
@@ -202,7 +203,7 @@ header {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7); /* dimmed background */
+  background: rgba(0, 0, 0, 0.7);
   justify-content: center;
   align-items: center;
   z-index: 100;
@@ -245,4 +246,45 @@ header {
   transform: scale(1.15);
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
   filter: brightness(1.3);
+}
+
+#uno-btn {
+  font-family: "Honk";
+  font-size: 30px;
+  color: white;
+  background-color: #dc143c;
+  border: 5px solid black;
+  border-radius: 50%;
+  padding: 15px 30px;
+  transform: rotate(-15deg);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  letter-spacing: 2px;
+}
+
+#uno-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+#uno-btn.called {
+  background-color: darkgreen;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+}
+
+#uno-btn:hover:not(:disabled) {
+  transform: rotate(-15deg) scale(1.1);
+  box-shadow: 0 0 15px rgba(220, 20, 60, 0.7);
+}
+
+.opponent-label {
+  font-family: "Orbitron", sans-serif;
+  font-size: 20px;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  margin: 4px 0;
+  padding: 8px 0;
 }

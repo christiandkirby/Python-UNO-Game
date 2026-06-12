@@ -3,9 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Winner Screen</title>
+    <title>Python UNO Game</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='winScreen.css') }}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Honk:MORF,SHLN@15,0&family=Orbitron:wght@400..900&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <h1>{{ winner }} Wins!</h1>
+    <header>
+      <h1 class="python-uno-title">{{ winner_name }} Wins!</h1>
+    </header>
+    <main>
+      <div class="menu-box glass-card">
+        <h2 class="glass-python-uno-title">{{ winner_name }} Wins!</h2>
+        <p>Congratulations {{ winner_name }}! You are the UNO Master!</p>
+        <button class="play-again-btn" onclick="window.location.href='/'">Play Again</button>
+      </div>
+    </main>
   </body>
 </html>

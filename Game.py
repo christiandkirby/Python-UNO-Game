@@ -76,12 +76,8 @@ def handle_wild(card, color):
 # Parameter(s): hand --> Array of Card Objects
 # Return Value(s): running (Boolean: True/False)
 # -------------------------------------
-def check_for_winner(hand, game_still_going):
-    if len(hand) == 0:
-        game_still_going = False
-        return game_still_going
-    else:
-        return game_still_going
+def check_for_winner(hand):
+    return True if len(hand) == 0 else False
 
 
 

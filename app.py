@@ -94,16 +94,14 @@ def gameplay():
     }
 
     if num_of_players == 2:
-        zones["top"] = len(opponents[0].hand)
-
+        zones["top"] = {"count": len(opponents[0].hand), "name": opponents[0].name}
     elif num_of_players == 3:
-        zones["left"] = len(opponents[0].hand)
-        zones["right"] = len(opponents[1].hand)
-
+        zones["left"] = {"count": len(opponents[0].hand), "name": opponents[0].name}
+        zones["right"] = {"count": len(opponents[1].hand), "name": opponents[1].name}
     elif num_of_players == 4:
-        zones["top"] = len(opponents[0].hand)
-        zones["left"] = len(opponents[1].hand)
-        zones["right"] = len(opponents[2].hand)
+        zones["top"] = {"count": len(opponents[0].hand), "name": opponents[0].name}
+        zones["left"] = {"count": len(opponents[1].hand), "name": opponents[1].name}
+        zones["right"] = {"count": len(opponents[2].hand), "name": opponents[2].name}
 
     return render_template(
         "gameplay.html",
@@ -133,10 +131,16 @@ def play_card():
         if Game.check_for_winner(current.hand):
             return jsonify({
                 'success': True,
+                'winner': True,
                 'winner_name': current.name
             })
         
-        uno = Game.check_for_uno(current.hand)
+        if Game.check_for_uno(current.hand):
+            global uno_called
+            if not uno_called:
+                current.draw_card(current.hand, drawDeck)
+                current.draw_card(current.hand, drawDeck)
+            uno_called = False
         
         if card.action in ['reverse', 'skip', 'draw two', 'draw four']:
             selected_player, direction = Game.handle_action_cards(discardPile[0], selected_player, 
@@ -179,15 +183,11 @@ def call_uno():
     return jsonify({'success': True})
 
 
-@app.route('/winner', methods=['POST'])
+
+@app.route('/winner')
 def winner():
-    render_template('winScreen.html', winner_name=players[selected_player].name)
-
-
-
-@app.route('/winner', methods=['POST'])
-def winner():
-    render_template('winScreen.html', winner_name=players[selected_player].name)
+    winner_name = request.args.get('winner')
+    return render_template('winScreen.html', winner_name=winner_name)
 
 
 if __name__ == "__main__":

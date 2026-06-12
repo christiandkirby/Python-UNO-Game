@@ -22,23 +22,30 @@
     <main>
       {% if zones.top %}
       <div class="table-top">
-        {% for i in range(zones.top) %}
-        <div class="card opponent-card">
-          <div class="rectangle">
-            <h2 class="uno-title">UNO</h2>
+        <div class="opponent-cards">
+          {% for i in range(zones.top.count) %}
+          <div class="card opponent-card">
+            <div class="rectangle">
+              <h2 class="uno-title">UNO</h2>
+            </div>
           </div>
+          {% endfor %}
         </div>
-        {% endfor %}
+        <p class="opponent-label">{{ zones.top.name }} ({{ zones.top.count }})</p>
       </div>
-      {% endif %} {% if zones.left %}
+      {% endif %}
+      {% if zones.left %}
       <div class="table-left">
-        {% for i in range(zones.left) %}
-        <div class="card opponent-card">
-          <div class="rectangle">
-            <h2 class="uno-title">UNO</h2>
+        <p class="opponent-label">{{ zones.left.name }} ({{ zones.left.count }})</p>
+        <div class="opponent-cards">
+          {% for i in range(zones.left.count) %}
+          <div class="card opponent-card">
+            <div class="rectangle">
+              <h2 class="uno-title">UNO</h2>
+            </div>
           </div>
+          {% endfor %}
         </div>
-        {% endfor %}
       </div>
       {% endif %}
       <div class="table-center">
@@ -54,16 +61,26 @@
             class="card-img"
           />
         </div>
+        <button
+          id="uno-btn"
+          onclick="callUno()"
+          {% if player_hand|length != 2 %}disabled{% endif %}
+        >
+          UNO!
+        </button>
       </div>
       {% if zones.right %}
       <div class="table-right">
-        {% for i in range(zones.right) %}
-        <div class="card opponent-card">
-          <div class="rectangle">
-            <h2 class="uno-title">UNO</h2>
+        <p class="opponent-label">{{ zones.right.name }} ({{ zones.right.count }})</p>
+        <div class="opponent-cards">
+          {% for i in range(zones.right.count) %}
+          <div class="card opponent-card">
+            <div class="rectangle">
+              <h2 class="uno-title">UNO</h2>
+            </div>
           </div>
+          {% endfor %}
         </div>
-        {% endfor %}
       </div>
       {% endif %}
       <div class="table-bottom">
@@ -94,42 +111,22 @@
         <div class="color-buttons">
           <button
             class="color-btn"
-            style="
-              background-color: red;
-              width: 50px;
-              height: 50px;
-              border-radius: 15px;
-            "
+            style="background-color: red; width: 50px; height: 50px; border-radius: 15px;"
             onclick="selectColor('red')"
           ></button>
           <button
             class="color-btn"
-            style="
-              background-color: yellow;
-              width: 50px;
-              height: 50px;
-              border-radius: 15px;
-            "
+            style="background-color: yellow; width: 50px; height: 50px; border-radius: 15px;"
             onclick="selectColor('yellow')"
           ></button>
           <button
             class="color-btn"
-            style="
-              background-color: green;
-              width: 50px;
-              height: 50px;
-              border-radius: 15px;
-            "
+            style="background-color: green; width: 50px; height: 50px; border-radius: 15px;"
             onclick="selectColor('green')"
           ></button>
           <button
             class="color-btn"
-            style="
-              background-color: blue;
-              width: 50px;
-              height: 50px;
-              border-radius: 15px;
-            "
+            style="background-color: blue; width: 50px; height: 50px; border-radius: 15px;"
             onclick="selectColor('blue')"
           ></button>
         </div>

@@ -15,7 +15,7 @@ function play_card(index, cardName) {
     .then(response => response.json())
     .then(data => {
     if (data.winner) {
-        window.location.href = '/win?winner=' + data.winner_name;
+        window.location.href = '/winner?winner=' + data.winner_name;
     } else if (data.success) {
         window.location.href = '/gameplay';
     }
@@ -48,4 +48,11 @@ function draw_card() {
     .then(data => {
         window.location.href = '/gameplay';
     })
+}
+
+function callUno() {
+  fetch('/call_uno', {method: 'POST', headers: {'Content-Type': 'application/json'}})
+  .then(() => {
+    document.getElementById('uno-btn').classList.add('called');
+  })
 }
