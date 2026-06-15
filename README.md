@@ -22,7 +22,7 @@ A browser-based implementation of the classic UNO card game built with Python. P
 
 ### Backend
 
-- Python
+- Python, Flask
 
 ### Frontend
 
