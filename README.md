@@ -147,8 +147,6 @@ Through this project, I strengthened my skills in:
 
 ## Screenshots
 
-Add screenshots here to showcase gameplay.
-
 ![UNO Game Screenshot](static/images/game_screenshot.png)
 
 ---
