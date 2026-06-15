@@ -149,9 +149,7 @@ Through this project, I strengthened my skills in:
 
 Add screenshots here to showcase gameplay.
 
-```md
-![UNO Game Screenshot](https://raw.githubusercontent.com/christiandkirby/Python-UNO-Game/main/static/images/game_screenshot.png)
-```
+![UNO Game Screenshot](static/images/game_screenshot.png)
 
 ---
 
