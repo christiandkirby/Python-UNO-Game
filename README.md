@@ -150,7 +150,7 @@ Through this project, I strengthened my skills in:
 Add screenshots here to showcase gameplay.
 
 ```md
-![Game Screenshot](images/game_screenshot.png)
+![Game Screenshot](static/images/game_screenshot.png)
 ```
 
 ---
