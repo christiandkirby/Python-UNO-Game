@@ -150,7 +150,7 @@ Through this project, I strengthened my skills in:
 Add screenshots here to showcase gameplay.
 
 ```md
-![Game Screenshot](static/images/game_screenshot.png)
+![UNO Game Screenshot](static/images/game_screenshot.png)
 ```
 
 ---
